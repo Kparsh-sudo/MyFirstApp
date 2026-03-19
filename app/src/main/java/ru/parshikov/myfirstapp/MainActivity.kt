@@ -76,8 +76,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             // Пример с ссылкой
-            linkTitle.text = "Новая Нетология: 4 уровня карьеры"
-            linkUrl.text = "netology.ru"
+            linkTitle.text = "Новости: последние блокировки Роскомнадзора"
+            linkUrl.text = "bezgranic.ru"
         }
     }
 
