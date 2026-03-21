@@ -61,13 +61,9 @@ class MainActivity : AppCompatActivity() {
 
         // Наблюдение за редактируемым постом
         viewModel.edited.observe(this) { post ->
+            binding.content.setText(post.content)
             if (post.id != 0L) {
-                // Редактирование существующего поста
-                binding.content.setText(post.content)
                 binding.content.requestFocus()
-            } else {
-                // Сброс (новый пост или отмена)
-                binding.content.setText("")
             }
         }
 
