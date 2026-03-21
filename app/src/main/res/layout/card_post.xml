@@ -47,16 +47,17 @@
         android:text="21 мая в 18:36" />
 
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/menu"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_menu"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:contentDescription="@string/menu_description"
+        app:icon="@drawable/ic_menu"
+        app:iconGravity="textStart"
+        style="@style/Widget.AppTheme.MenuButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/avatar"
-        app:tint="@android:color/darker_gray" />
+        app:layout_constraintTop_toTopOf="@id/avatar" />
+
 
 
     <androidx.constraintlayout.widget.Barrier
@@ -110,72 +111,55 @@
 
         <LinearLayout
             android:id="@+id/actions"
-            android:layout_width="347dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/link_block">
 
-            <ImageButton
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/like"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="16dp"
-                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
                 android:contentDescription="@string/like_description"
-                android:src="@drawable/ic_like_border"
-                app:tint="@color/purple_500" />
+                app:icon="@drawable/ic_like_border"
+                app:iconGravity="textStart"
+                android:text="0"
+                style="@style/Widget.AppTheme.LikeButton" />
 
-            <TextView
-                android:id="@+id/like_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:text="150"
-                android:textColor="@color/purple_500"
-                android:textSize="14sp" />
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/share"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="16dp"
-                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:contentDescription="@string/share_description"
-                android:src="@drawable/ic_share"
-                app:tint="@color/purple_500" />
+                app:icon="@drawable/ic_share"
+                app:iconGravity="textStart"
+                android:text="0"
+                style="@style/Widget.AppTheme.ShareButton" />
 
-            <TextView
-                android:id="@+id/share_count"
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/views"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:text="25"
-                android:textColor="@color/purple_500"
-                android:textSize="14sp" />
-
-            <ImageButton
-                android:id="@+id/views_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
+                android:layout_marginStart="16dp"
+                android:clickable="false"
+                android:focusable="false"
                 android:contentDescription="@string/views_description"
-                android:src="@drawable/ic_visibility"
-                app:tint="@android:color/darker_gray" />
-
-            <TextView
-                android:id="@+id/views_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5.7K"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="14sp" />
+                app:icon="@drawable/ic_visibility"
+                app:iconGravity="textStart"
+                android:text="0"
+                style="@style/Widget.AppTheme.ShareButton" />
 
         </LinearLayout>
+
 
     </LinearLayout>
 
