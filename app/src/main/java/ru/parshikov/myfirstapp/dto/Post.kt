@@ -1,6 +1,7 @@
 package ru.parshikov.myfirstapp.dto
 
-data class Post(
+data class Post
+        (
         val id: Long,
         val author: String,
         val authorId: Long = 0,
