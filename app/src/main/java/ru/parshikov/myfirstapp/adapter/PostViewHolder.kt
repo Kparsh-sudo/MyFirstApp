@@ -1,10 +1,16 @@
 package ru.parshikov.myfirstapp.adapter
 
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ru.parshikov.myfirstapp.R
 import ru.parshikov.myfirstapp.databinding.CardPostBinding
+import ru.parshikov.myfirstapp.databinding.ItemVideoBinding
 import ru.parshikov.myfirstapp.dto.Post
 import java.text.DecimalFormat
 
@@ -13,38 +19,70 @@ class PostViewHolder(
     private val listener: OnPostInteractionListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
+
     fun bind(post: Post) {
         binding.apply {
             author.text = post.author
             published.text = post.published
             content.text = post.content
 
-            // Для кнопки лайка используем isChecked и текст
             like.isChecked = post.likedByMe
             like.text = formatCount(post.likes)
-
-            // Для репоста и просмотров - только текст
             share.text = formatCount(post.shares)
             views.text = formatCount(post.views)
 
+            // Обработка видео
+            if (post.video.isNullOrBlank()) {
+                // Если видео нет, скрываем контейнер
+                videoContainer.removeAllViews()
+                videoContainer.visibility = View.GONE
+            } else {
+                // Если видео есть, показываем контейнер и наполняем его
+                videoContainer.visibility = View.VISIBLE
+                videoContainer.removeAllViews()
+
+                // Инфлейтим layout видео
+                val videoBinding = ItemVideoBinding.inflate(LayoutInflater.from(itemView.context), videoContainer, true)
+
+                // Устанавливаем текст видео (можно показать короткую ссылку)
+                videoBinding.videoUrl.text = post.video
+
+                // Обработка клика на весь блок видео
+                videoContainer.setOnClickListener {
+                    openVideo(post.video!!)
+                }
+            }
+
             // Обработчики кликов
-            like.setOnClickListener {
-                listener.onLike(post)
-            }
+            like.setOnClickListener { listener.onLike(post) }
+            share.setOnClickListener { listener.onShare(post) }
+            avatar.setOnClickListener { listener.onAvatarClick(post) }
 
-            share.setOnClickListener {
-                listener.onShare(post)
-            }
-
-            avatar.setOnClickListener {
-                listener.onAvatarClick(post)
-            }
-
+            // Кнопка меню
             menu.setOnClickListener { view ->
                 showPopupMenu(view, post)
             }
         }
     }
+
+
+    private fun openVideo(videoUrl: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl))
+
+        // Получаем список приложений, которые могут обработать Intent
+        val packageManager = itemView.context.packageManager
+        val activities = packageManager.queryIntentActivities(intent, 0)
+
+        // Логируем результат
+        Log.d("VideoIntent", "queryIntentActivities: $activities")
+
+        val resolveInfo = intent.resolveActivity(packageManager)
+        Log.d("VideoIntent", "resolveActivity: $resolveInfo")
+
+        // Далее запуск как обычно...
+    }
+
+
 
 
     private fun showPopupMenu(anchor: View, post: Post) {
