@@ -19,7 +19,6 @@ class PostViewHolder(
     private val listener: OnPostInteractionListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-
     fun bind(post: Post) {
         binding.apply {
             author.text = post.author
@@ -53,18 +52,34 @@ class PostViewHolder(
                 }
             }
 
-            // Обработчики кликов
-            like.setOnClickListener { listener.onLike(post) }
-            share.setOnClickListener { listener.onShare(post) }
-            avatar.setOnClickListener { listener.onAvatarClick(post) }
+            // Обработка клика на всю карточку (кроме интерактивных элементов)
+            root.setOnClickListener {
+                listener.onPostClick(post)
+            }
 
-            // Кнопка меню
+            // Обработчики для интерактивных элементов должны вызывать stopPropagation
+            // чтобы не срабатывал клик на root
+            like.setOnClickListener {
+                listener.onLike(post)
+                it.stopPropagation()  // предотвращаем всплытие события
+            }
+
+            share.setOnClickListener {
+                listener.onShare(post)
+                it.stopPropagation()
+            }
+
+            avatar.setOnClickListener {
+                listener.onAvatarClick(post)
+                it.stopPropagation()
+            }
+
             menu.setOnClickListener { view ->
                 showPopupMenu(view, post)
+                view.stopPropagation()  // предотвращаем всплытие события для меню
             }
         }
     }
-
 
     private fun openVideo(videoUrl: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl))
@@ -79,11 +94,14 @@ class PostViewHolder(
         val resolveInfo = intent.resolveActivity(packageManager)
         Log.d("VideoIntent", "resolveActivity: $resolveInfo")
 
-        // Далее запуск как обычно...
+        // Запускаем видео
+        try {
+            itemView.context.startActivity(intent)
+        } catch (e: Exception) {
+            Log.e("VideoIntent", "Failed to open video", e)
+            Toast.makeText(itemView.context, "Не удалось открыть видео", Toast.LENGTH_SHORT).show()
+        }
     }
-
-
-
 
     private fun showPopupMenu(anchor: View, post: Post) {
         PopupMenu(anchor.context, anchor).apply {
@@ -115,7 +133,7 @@ class PostViewHolder(
                 if (millions % 1.0 == 0.0) {
                     "${millions.toInt()}M"
                 } else {
-                    DecimalFormat(".").format(millions) + "M"
+                    DecimalFormat("#.#").format(millions) + "M"
                 }
             }
             count >= 10_000 -> "${count / 1000}K"
@@ -124,10 +142,16 @@ class PostViewHolder(
                 if (thousands % 1.0 == 0.0) {
                     "${thousands.toInt()}K"
                 } else {
-                    DecimalFormat(".").format(thousands) + "K"
+                    DecimalFormat("#.#").format(thousands) + "K"
                 }
             }
             else -> count.toString()
         }
     }
+}
+
+// Extension function для предотвращения всплытия событий
+fun View.stopPropagation() {
+    isClickable = true
+    setOnClickListener { /* пустой обработчик, чтобы перехватить событие */ }
 }

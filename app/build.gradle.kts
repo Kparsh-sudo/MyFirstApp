@@ -1,7 +1,6 @@
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -48,11 +47,11 @@ buildFeatures {
     //kotlinOptions {
     //       jvmTarget = "11"
     //}
-    kotlin {
-        jvmToolchain {
-            languageVersion.set(JavaLanguageVersion.of(11))
-        }
-    }
+    //kotlin {
+    //    jvmToolchain {
+   //         languageVersion.set(JavaLanguageVersion.of(11))
+   //     }
+   // }
 
 }
 
@@ -77,5 +76,8 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.8.0")
     implementation("androidx.fragment:fragment-ktx:1.6.0")
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.0")
+
 
 }

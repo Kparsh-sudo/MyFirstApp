@@ -24,5 +24,8 @@
     <string name="error_no_video_app">Net coro4e app dla vieo</string>
     <string name="error_cannot_open_video">Video ne otcrivaetsa</string>
     <string name="share_post_via">Share through</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="post_removed">Post removed</string>
 
 </resources>
