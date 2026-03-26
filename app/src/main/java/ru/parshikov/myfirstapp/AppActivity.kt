@@ -3,6 +3,8 @@ package ru.parshikov.myfirstapp
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import ru.parshikov.myfirstapp.R
 
 class AppActivity : AppCompatActivity() {
 
@@ -14,7 +16,7 @@ class AppActivity : AppCompatActivity() {
         handleIntent(intent)
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         handleIntent(intent)
     }
@@ -34,4 +36,6 @@ class AppActivity : AppCompatActivity() {
             }
         }
     }
+
 }
+

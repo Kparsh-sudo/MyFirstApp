@@ -18,7 +18,7 @@
             android:contentDescription="@string/avatar_description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@android:drawable/sym_def_app_icon" />
+            tools:src="@drawable/icon_of_source" />
 
         <TextView
             android:id="@+id/author"

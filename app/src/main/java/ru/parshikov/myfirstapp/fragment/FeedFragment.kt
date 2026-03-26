@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.parshikov.myfirstapp.R
+import ru.parshikov.myfirstapp.activity.EditPostContract
 import ru.parshikov.myfirstapp.adapter.OnPostInteractionListener
 import ru.parshikov.myfirstapp.adapter.PostsAdapter
 import ru.parshikov.myfirstapp.databinding.FragmentFeedBinding
@@ -39,7 +40,7 @@ class FeedFragment : Fragment() {
         }
 
         override fun onEdit(post: Post) {
-            // Пока оставим заглушку, реализуем позже
+            editPostLauncher.launch(post.content)
             Toast.makeText(requireContext(), "Edit post ${post.id}", Toast.LENGTH_SHORT).show()
         }
 
@@ -95,5 +96,12 @@ class FeedFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+    private val editPostLauncher = registerForActivityResult(EditPostContract()) { result ->
+        if (!result.isNullOrBlank()) {
+            // Получен текст отредактированного/нового поста
+            viewModel.changeContent(result)
+            viewModel.save()
+        }
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    package="ru.parshikov.myfirstapp">
 
     <application
         android:allowBackup="true"
@@ -10,37 +10,38 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-    <activity
-            android:name=".activity.EditPostActivity"
-            android:exported="false" >
-        <!-- Подключаем граф навигации -->
-        <nav-graph android:value="@navigation/nav_main" />
+        <activity
+            android:name="ru.parshikov.myfirstapp.AppActivity"
+            android:exported="true">
 
-        <!-- Intent фильтр для получения SEND интентов -->
-        <intent-filter>
+            <!-- Подключаем граф навигации -->
+            <nav-graph android:value="@navigation/nav_main" />
+
+            <!-- Intent фильтр для получения SEND интентов -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+            <!-- Intent фильтр для лаунчера -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
             <action android:name="android.intent.action.SEND" />
-            <category android:name="android.intent.category.DEFAULT" />
             <data android:mimeType="text/plain" />
-        </intent-filter>
+        </intent>
+    </queries>
 
-        <!-- Intent фильтр для лаунчера -->
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-
-</application>
-
-<queries>
-<intent>
-    <action android:name="android.intent.action.VIEW" />
-    <data android:scheme="https" />
-</intent>
-<intent>
-    <action android:name="android.intent.action.SEND" />
-    <data android:mimeType="text/plain" />
-</intent>
-</queries>
-
-    </manifest>
+</manifest>
