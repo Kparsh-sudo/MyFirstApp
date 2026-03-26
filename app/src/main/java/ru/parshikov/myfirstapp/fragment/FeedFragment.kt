@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.parshikov.myfirstapp.R
@@ -21,7 +22,7 @@ class FeedFragment : Fragment() {
     private var _binding: FragmentFeedBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: PostViewModel by viewModels()
+    private val viewModel: PostViewModel by activityViewModels()
 
     private val interactionListener = object : OnPostInteractionListener {
         override fun onLike(post: Post) {
@@ -40,7 +41,8 @@ class FeedFragment : Fragment() {
         }
 
         override fun onEdit(post: Post) {
-            editPostLauncher.launch(post.content)
+            viewModel.edit(post)
+            findNavController().navigate(R.id.newPostFragment)
             Toast.makeText(requireContext(), "Edit post ${post.id}", Toast.LENGTH_SHORT).show()
         }
 
@@ -96,12 +98,5 @@ class FeedFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-    private val editPostLauncher = registerForActivityResult(EditPostContract()) { result ->
-        if (!result.isNullOrBlank()) {
-            // Получен текст отредактированного/нового поста
-            viewModel.changeContent(result)
-            viewModel.save()
-        }
     }
 }
