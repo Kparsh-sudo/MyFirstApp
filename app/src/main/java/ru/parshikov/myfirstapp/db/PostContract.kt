@@ -16,7 +16,6 @@ object PostContract {
         const val SHARES = "shares"
         const val VIEWS = "views"
         const val VIDEO = "video"
-
         const val _ID = BaseColumns._ID
 
         // Все колонки для выборки
